@@ -52,10 +52,26 @@ impl StemmerWrapper {
     }
 
     #[inline(always)]
-    pub fn stem_word_parallel(&self, inputs: Vec<&str>) -> Vec<String> {
+    pub fn stem_words_parallel(&self, inputs: Vec<&str>) -> Vec<String> {
         inputs.into_iter()
             .map(|word| self.stemmer.stem(word))
             .map(|stemmed| stemmed.into_owned())
+            .collect()
+    }
+    #[inline(always)]
+    fn stem_words(&self, words: Vec<&str>) -> Vec<String> {
+        words.into_iter()
+            .map(|word| self.stemmer.stem(word).into_owned())
+            .collect()
+    }
+
+    #[inline(always)]
+    fn stem_words_bytes(&self, words: Vec<&[u8]>) -> Vec<String> {
+        words.into_iter()
+            .map(|word| {
+                let input_str = std::str::from_utf8(word).unwrap();
+                self.stemmer.stem(input_str).into_owned()
+            })
             .collect()
     }
 }

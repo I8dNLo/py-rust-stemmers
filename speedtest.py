@@ -17,9 +17,24 @@ print("Time taken py_rust_stemmers:", time.perf_counter() - a)
 d = time.perf_counter()
 
 for _ in range(loops):
-    stemmed_words = s.stem_word_parallel(text.split())
+    stemmed_words = s.stem_words_parallel(text.split())
 
 print("Parallel:", time.perf_counter() - d)
+
+d = time.perf_counter()
+
+for _ in range(loops):
+    stemmed_words = s.stem_words(text.split())
+
+print("Non parallel:", time.perf_counter() - d)
+
+d = time.perf_counter()
+
+for _ in range(loops):
+    stemmed_words = s.stem_words_bytes(text.encode('utf-8').split())
+
+print("Non-parallel Bytes:", time.perf_counter() - d)
+
 
 s = stemmer('english')
 b = time.perf_counter()
@@ -27,3 +42,4 @@ for _ in range(loops):
     for word in words:
         stemmed = s.stemWord(word.encode('utf-8'))
 print("Time taken snowballstemmer with PyStemmer installed:", time.perf_counter() - b)
+
