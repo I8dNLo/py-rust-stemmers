@@ -1,0 +1,33 @@
+[profile.release]
+opt-level = "3"       # Maximize performance (default for release builds)
+lto = true            # Enable full Link Time Optimization
+codegen-units = 1     # Maximize optimization by reducing codegen units (slower compile times)
+panic = 'abort'       # No stack unwinding, abort on panic for smaller binary
+strip = true          # Strip debug symbols for smaller binary
+
+Time taken py_rust_stemmers: 3.5440799579955637
+Time taken snowballstemmer with PyStemmer installed: 2.133824291988276
+________
+[profile.release]
+opt-level = "3"       # Maximize performance
+lto = "thin"          # Thin LTO for faster compilation
+codegen-units = 8     # More codegen units for faster compile times, some optimization loss
+panic = 'abort'       # Abort on panic for smaller binaries
+strip = true          # Strip debug symbols for smaller binary
+
+Time taken py_rust_stemmers: 3.500680207973346
+Time taken snowballstemmer with PyStemmer installed: 2.084753874980379
+________
+[profile.release]
+opt-level = "z"       # Optimize for size
+lto = true            # Full LTO for best size reduction
+codegen-units = 1     # Single codegen unit for maximum cross-crate optimization
+panic = 'abort'       # No stack unwinding, abort on panic
+strip = true          # Remove debug symbols for smaller binary
+
+Time taken py_rust_stemmers: 3.56492029101355
+Time taken snowballstemmer with PyStemmer installed: 2.15259812498698
+________
+maturin build --release
+pip install target/wheels/py_rust_stemmers-0.1.0-cp312-cp312-macosx_11_0_arm64.whl
+python speedtest.py

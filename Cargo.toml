@@ -1,0 +1,25 @@
+[package]
+name = "py_rust_stemmers"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.18", features = ["extension-module"] }
+rust-stemmers = "1.0"
+
+[dev-dependencies]
+pyo3 = { version = "0.18", features = ["extension-module"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = 'abort'
+strip = true
+rpath = false                 # Disable rpath
+overflow-checks = false       # Disable overflow checks for performance
+
+
