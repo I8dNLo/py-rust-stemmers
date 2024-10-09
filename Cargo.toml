@@ -8,7 +8,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.18", features = ["extension-module"] }
-rust-stemmers = "1.0"
+rust-stemmers = "1.2.0"
+rayon = "1.6"
 
 [dev-dependencies]
 pyo3 = { version = "0.18", features = ["extension-module"] }
