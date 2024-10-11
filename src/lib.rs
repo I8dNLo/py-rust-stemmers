@@ -6,12 +6,12 @@ use rust_stemmers::{Algorithm, Stemmer};
 
 // Create a Python class to expose the stemmer functionality
 #[pyclass]
-pub struct StemmerWrapper {
+pub struct SnowballStemmer {
     stemmer: Stemmer,
 }
 
 #[pymethods]
-impl StemmerWrapper {
+impl SnowballStemmer {
     #[new]
     fn new(lang: &str) -> Self {
         let algorithm = match lang.to_lowercase().as_str() {
@@ -36,7 +36,7 @@ impl StemmerWrapper {
             _ => panic!("Unsupported language: {}", lang),
         };
         let stemmer = Stemmer::create(algorithm);
-        StemmerWrapper { stemmer }
+        SnowballStemmer { stemmer }
     }
 
     #[inline(always)]
@@ -64,6 +64,6 @@ impl StemmerWrapper {
 /// This module is required for the Python interpreter to access the Rust functions.
 #[pymodule]
 fn py_rust_stemmers(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_class::<StemmerWrapper>()?;
+    m.add_class::<SnowballStemmer>()?;
     Ok(())
 }
